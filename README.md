@@ -11,7 +11,7 @@ It gets registered user's checkIn data and saves it to a db and shows this data 
 
 ### Defaults
 * Default port is **4001**. You can change it from server.go
-* This application uses oauth registration. Default redirection address is **http://localhost:4001/code**
+* This application uses oauth registration. Default redirection address is **http://localhost:4001/**
 * Default db etc.
 
 ## TODO
