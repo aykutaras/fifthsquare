@@ -14,5 +14,9 @@ It gets registered user's checkIn data and saves it to a db and shows this data 
 * This application uses oauth registration. Default redirection address is **http://localhost:4001/code**
 * Default db etc.
 
+## TODO
+Store user info first
+
 ### Database
-TODO ...
+BoltDB first maybe cayley after that
+
