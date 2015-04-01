@@ -1,4 +1,5 @@
 # Fifthsquare
+[![Build Status](https://drone.io/github.com/aykutaras/fifthsquare/status.png)](https://drone.io/github.com/aykutaras/fifthsquare/latest)
 An example web application for [my go foursquare API](https://github.com/aykutaras/gosquare). It mainly uses [net/http](http://golang.org/pkg/net/http/) and [html/template](http://golang.org/pkg/html/template/).
 
 It gets registered user's checkIn data and saves it to a db and shows this data through a map.
