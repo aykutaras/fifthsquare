@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Started")
-	fifthsquare.InitHttpService()
+	serverUrl := "localhost:4001"
+	fmt.Println(fmt.Sprintf("Server started at: %s", serverUrl))
+	fifthsquare.InitHttpService(serverUrl)
 }

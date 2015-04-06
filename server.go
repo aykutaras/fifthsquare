@@ -5,16 +5,17 @@ import (
 	"github.com/aykutaras/gosquare"
 	"log"
 	"net/http"
+	"os"
 )
 
 const (
-	Uri          = "http://localhost:4001"
-	ClientId     = ""
-	ClientSecret = ""
+	uri                = "http://localhost:4001"
+	clientIdEnvKey     = "FOURSQUARE_CLIENTID"
+	clientSecretEnvKey = "FOURSQUARE_CLIENTSECRET"
 )
 
 var api *gosquare.Api = &gosquare.Api{
-	Auth:  &gosquare.Auth{ClientId: ClientId, ClientSecret: ClientSecret},
+	Auth:  &gosquare.Auth{ClientId: os.Getenv(clientIdEnvKey), ClientSecret: os.Getenv(clientSecretEnvKey)},
 	Users: new(gosquare.Users),
 }
 
@@ -22,12 +23,12 @@ func ConnectToFoursquare(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	if code := query.Get("code"); code != "" || api.Auth.AccessToken != "" {
 		code := query.Get("code")
-		api.Auth.GetAccessToken(Uri, code)
+		api.Auth.GetAccessToken(uri, code)
 		fmt.Fprint(w, "<a href='profile'>Profile</a><br />")
 		fmt.Fprint(w, "<a href='checkins'>CheckIns</a><br />")
 		fmt.Fprint(w, "<a href='friends'>Friends</a><br />")
 	} else {
-		authUri := api.Auth.Authenticate(Uri)
+		authUri := api.Auth.Authenticate(uri)
 		fmt.Fprintf(w, "<a href='%s'>Connect to Foursquare</a>", authUri)
 	}
 }
@@ -47,12 +48,12 @@ func GetUserFriends(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "%s", api.Users.Friends)
 }
 
-func InitHttpService() {
+func InitHttpService(serverUrl string) {
 	http.HandleFunc("/", ConnectToFoursquare)
 	http.HandleFunc("/checkins", GetUserCheckIns)
 	http.HandleFunc("/friends", GetUserFriends)
 	http.HandleFunc("/profile", GetUserProfile)
-	err := http.ListenAndServe("localhost:4001", nil)
+	err := http.ListenAndServe(serverUrl, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
